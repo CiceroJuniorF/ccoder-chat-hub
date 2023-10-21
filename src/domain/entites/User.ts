@@ -49,7 +49,6 @@ export default class User extends AggregateRoot {
 
     public static load(input:LoadUserInput):User{
         const user = new User(input.id, input.name, input.email);
-        user.created();
         return user
     }
 

@@ -54,7 +54,6 @@ export default class Message extends AggregateRoot {
 
     public static load(input:LoadMessageInput) {
         const message = new Message(input.id, input.text, input.senderId, input.chatId, input.sentAt)
-        message.created();
         return message
     }
 

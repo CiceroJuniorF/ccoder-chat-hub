@@ -1,6 +1,7 @@
 import { AggregateRoot } from "@nestjs/cqrs";
 import { IDGenerator } from "../interfaces/IDGenerator";
 import { IDGeneratorAsync } from "../interfaces/IDGeneratorAsync";
+import NewEntityEvent from "../events/NewEntityEvent";
 
 
 type ChatInput = {
@@ -32,12 +33,14 @@ export default class Chat extends AggregateRoot {
     public static create(input:CreateChatDefaultInput):Chat{
         const id_ = input.idGenerator.generate();
         const chat = new Chat(id_, input.participants);
+        chat.created();
         return chat;
     }
 
     public static async createAsync(input:CreateChatAsyncInput) {
         const id_ = await input.idGenerator.generate();
         const chat = new Chat(id_, input.participants);
+        chat.created();
         return chat;
     }
 
@@ -52,6 +55,11 @@ export default class Chat extends AggregateRoot {
 
     public get participants() : string[] {
         return this._participants;
+    }
+
+    private created():void{
+        this.publish(new NewEntityEvent<Chat>(this));
+        this.commit()
     }
     
 }
