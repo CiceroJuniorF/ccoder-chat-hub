@@ -76,4 +76,20 @@ describe('Message', () => {
         expect(message.id).toBe(idMock);
     });
 
+    test("Should load a message with the correct properties", async() => {
+        const message: Message = await Message.load({
+            text: textMock,
+            senderId: senderIdMock,
+            chatId: chatIdMock,
+            sentAt: sentAtMock,
+            id: idMock
+        });
+        expect(message.text).toBe(textMock);
+        expect(message.senderId).toBe(senderIdMock);
+        expect(message.chatId).toBe(chatIdMock);
+        expect(message.sentAt).toBe(sentAtMock);
+        expect(message.id).toBe(idMock);
+    });
+
+
 });
